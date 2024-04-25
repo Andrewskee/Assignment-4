@@ -13,7 +13,8 @@ public class SortingApplication {
 			BufferedReader reader = new BufferedReader(new FileReader("Masterlist.csv.txt"));
 			String line;
 			while((line = reader.readLine())!= null){
-				System.out.println(line);
+				String[] values = line.split(",");
+				System.out.println(values);
 			}
 			reader.close();
 		} catch (FileNotFoundException e) {
