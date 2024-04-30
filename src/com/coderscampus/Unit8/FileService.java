@@ -9,14 +9,14 @@ public class FileService {
 	public void readFile() {
 		
 		BufferedReader reader = null;
-		
+		String fileLine;
 	try {
 		reader = new BufferedReader(new FileReader("Masterlist.csv.txt"));
-		String fileLine;
+		
 		while((fileLine = reader.readLine())!= null){
 			String[] values = fileLine.split(",");
 		for (String value : values) {
-			
+			System.out.println(values);
 		}
 		}
 		reader.close();
@@ -31,14 +31,14 @@ class StoredUsers {
 		
 //		public User studentUser;
 
-		public Student getStudentInfo(int id,String name, int grade,String course) {
-			Student user = new Student();
+		public Student getStudentInfo(Integer id,String name, Integer grade,String course) {
+			Student student = new Student(id, name, course, grade);
 			
-			user.setId(id);
-			user.setName(name);
-			user.setCourse(course);
-			user.setGrade(grade);
-			return user; 
+			student.setId(id);
+			student.setName(name);
+			student.setCourse(course);
+			student.setGrade(grade);
+			return student; 
 		}
 }
 	
@@ -50,7 +50,7 @@ class StudentService {
 		
 	public StudentService() {
 	for (int i = 0; i < 100; i++) {
-		mainUsers[i] = storedUsers.getStudentInfo("id" + (i+1), "name" + (i+1), "course" + (i+1), "grade" + (i+1));            
+		mainUsers[i] = storedUsers.getStudentInfo(id, name, course, grade)
 		
 	}
 	
