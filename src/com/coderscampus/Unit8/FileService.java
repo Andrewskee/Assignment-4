@@ -13,13 +13,22 @@ public class FileService {
 	
 	try {BufferedReader reader = new BufferedReader(new FileReader("Masterlist.csv.txt"));
 		String fileLine;
+		boolean isFirstLine = true;
 		while((fileLine = reader.readLine())!= null && studentValues <100){
+			if (isFirstLine ) {
+				isFirstLine = false;
+				continue;
+			}
 			String[] values = fileLine.split(",");
 			if (values.length >= 4) {
 				int id = Integer.parseInt(values[0]);
 				String name = values[1];
 				int grade = Integer.parseInt(values[2]);
 				String course = values[3];
+				
+				StoredUsers storedUsers = new StoredUsers();
+				students[studentValues++] = storedUsers.getStudentInfo(id, name, course, grade);
+				
 				
 			}
 		}
@@ -36,7 +45,7 @@ class StoredUsers {
 		
 //		public User studentUser;
 
-		public Student getStudentInfo(Integer id,String name, Integer grade,String course) {
+		public Student getStudentInfo(Integer id,String name, String course,Integer grade ) {
 			Student student = new Student(id, name, course, grade);
 			
 			student.setId(id);
@@ -51,11 +60,11 @@ class StudentService {
 	
 	StoredUsers storedUsers = new StoredUsers();
 	
-	User[] mainUsers = new User[100]; 
+	Student[] mainUsers = new Student[100]; 
 		
 	public StudentService() {
 	for (int i = 0; i < 100; i++) {
-		mainUsers[i] = storedUsers.getStudentInfo(null, null, null, null)
+		mainUsers[i] = storedUsers.getStudentInfo(null, null, null, null);
 		
 	}
 	
