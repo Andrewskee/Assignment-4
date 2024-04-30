@@ -6,18 +6,22 @@ import java.io.FileReader;
 import java.io.IOException;
 public class FileService {
 
-	public void readFile() {
-		
-		BufferedReader reader = null;
+	public Student[] readStudentsFromFile() {
+		Student[] students = new Student[100];
+		int studentValues = 0;
+	
+	
+	try {BufferedReader reader = new BufferedReader(new FileReader("Masterlist.csv.txt"));
 		String fileLine;
-	try {
-		reader = new BufferedReader(new FileReader("Masterlist.csv.txt"));
-		
-		while((fileLine = reader.readLine())!= null){
+		while((fileLine = reader.readLine())!= null && studentValues <100){
 			String[] values = fileLine.split(",");
-		for (String value : values) {
-			System.out.println(values);
-		}
+			if (values.length >= 4) {
+				int id = Integer.parseInt(values[0]);
+				String name = values[1];
+				int grade = Integer.parseInt(values[2]);
+				String course = values[3];
+				
+			}
 		}
 		reader.close();
 	} catch (FileNotFoundException e) {
@@ -25,6 +29,7 @@ public class FileService {
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
+	return students;
 	}
 	
 class StoredUsers {
@@ -50,7 +55,7 @@ class StudentService {
 		
 	public StudentService() {
 	for (int i = 0; i < 100; i++) {
-		mainUsers[i] = storedUsers.getStudentInfo(id, name, course, grade)
+		mainUsers[i] = storedUsers.getStudentInfo(null, null, null, null)
 		
 	}
 	
