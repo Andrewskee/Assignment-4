@@ -1,11 +1,15 @@
 package com.coderscampus.Unit8;
 
-public class Student {
+import java.io.Serializable;
 
-	private Integer id;
+public class Student implements Comparable<Student>, Serializable{
+
+
+	private static final long serialVersionUID = 1L;
+	private int id;
 	private String name;
 	private String course;
-	private Integer grade;
+	private int grade;
 	
 	
 	public Student(Integer id, String name, String course, Integer grade) {
@@ -15,6 +19,9 @@ public class Student {
 		this.grade = grade; 
 	}
 	
+
+	
+
 	public Integer getId() {
 		return id;
 	}
@@ -38,6 +45,12 @@ public class Student {
 	}
 	public void setGrade(Integer grade) {
 		this.grade = grade;
+	}
+
+	@Override
+	public int compareTo(Student o) {
+		// TODO Auto-generated method stub
+		return 0;
 	} 
 	
 	
