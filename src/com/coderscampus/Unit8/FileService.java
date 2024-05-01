@@ -24,20 +24,23 @@ public class FileService {
 			if (values.length >= 4) {
 				int id = Integer.parseInt(values[0]);
 				String name = values[1];
-				int grade = Integer.parseInt(values[2]);
-				String course = values[3];
+				String course = values[2];
+				int grade = Integer.parseInt(values[3]);
 				
 				String[] courseParts = course.split(" ");
 				if (courseParts.length >= 2) {
 					String courseName = courseParts[0];
-					int courseNumber = Integer.parseInt(courseParts[1]);
 					
-				}else {
-					 System.out.println("Invalid course format: " + course);
-					 
+//					try {
+//						int courseNumber = Integer.parseInt(courseParts[1]);
+//					} catch (NumberFormatException e) {
+//						System.out.println("Invalid course number format: " + courseParts[1]);
+//					}
+//					
+//				}else {
+//					 System.out.println("Invalid course format: " + course);
+//					 continue;
 				}
-				
-				
 				StoredUsers storedUsers = new StoredUsers();
 				students[studentValues++] = storedUsers.getStudentInfo(id, name, course, grade);
 				
@@ -53,39 +56,39 @@ public class FileService {
 	return students;
 	}
 	
-class StoredUsers {
-		
-//		public User studentUser;
-
-		public Student getStudentInfo(Integer id,String name, String course,Integer grade ) {
-			Student student = new Student(id, name, course, grade);
-			
-			student.setId(id);
-			student.setName(name);
-			student.setCourse(course);
-			student.setGrade(grade);
-			return student; 
-		}
-}
-	
-class StudentService {
-	
-	FileService fileService = new FileService();
-	Student[] mainUsers = fileService.readStudentsFromFile();
-//	StoredUsers storedUsers = new StoredUsers();
-//	Student[] mainUsers = new Student[100];
-		
-	public StudentService() {
-//	for (int i = 0; i < 100; i++) {
-//		mainUsers[i] = storedUsers.getStudentInfo(id, name, course, grade);
+//class StoredUsers {
 //		
-//	}
-	
-}	
+//		public User studentUser;
+//
+//		public Student getStudentInfo(Integer id,String name, String course,Integer grade ) {
+//			Student student = new Student(id, name, course, grade);
+//			
+//			student.setId(id);
+//			student.setName(name);
+//			student.setCourse(course);
+//			student.setGrade(grade);
+//			return student; 
+//		}
+//}
+//	
+//class StudentService {
+//	
+//	FileService fileService = new FileService();
+//	Student[] mainUsers = fileService.readStudentsFromFile();
+////	StoredUsers storedUsers = new StoredUsers();
+////	Student[] mainUsers = new Student[100];
+//		
+//	public StudentService() {
+////	for (int i = 0; i < 100; i++) {
+////		mainUsers[i] = storedUsers.getStudentInfo(id, name, course, grade);
+////		
+////	}
+//	
+//}	
 }	
 
 	
 	
 
 	
-}
+
