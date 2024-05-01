@@ -1,14 +1,16 @@
-package com.coderscampus.Unit8;
-
+//package com.coderscampus.Unit8;
+//
+//import com.coderscampus.Unit8.FileService.StoredUsers;
+//
 //public class StudentService {
 //	
 //	StoredUsers storedUsers = new StoredUsers();
 //	
-//	User[] mainUsers = new User[100]; 
+//	User[] mainUsers = new User[100]; {
 //		
-//	public StudentService() {
+//	
 //	for (int i = 0; i < 100; i++) {
-//		mainUsers[i] = storedUsers.getStudentInfo(i, null, i, null)
+//		mainUsers[i] = StoredUsers.getStudentInfo(i, null, i, null);
 //		
 //	}
 //	

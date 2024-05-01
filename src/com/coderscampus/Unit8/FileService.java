@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
 public class FileService {
 
 	public Student[] readStudentsFromFile() {
@@ -25,6 +26,17 @@ public class FileService {
 				String name = values[1];
 				int grade = Integer.parseInt(values[2]);
 				String course = values[3];
+				
+				String[] courseParts = course.split(" ");
+				if (courseParts.length >= 2) {
+					String courseName = courseParts[0];
+					int courseNumber = Integer.parseInt(courseParts[1]);
+					
+				}else {
+					 System.out.println("Invalid course format: " + course);
+					 
+				}
+				
 				
 				StoredUsers storedUsers = new StoredUsers();
 				students[studentValues++] = storedUsers.getStudentInfo(id, name, course, grade);
@@ -58,15 +70,16 @@ class StoredUsers {
 	
 class StudentService {
 	
-	StoredUsers storedUsers = new StoredUsers();
-	
-	Student[] mainUsers = new Student[100]; 
+	FileService fileService = new FileService();
+	Student[] mainUsers = fileService.readStudentsFromFile();
+//	StoredUsers storedUsers = new StoredUsers();
+//	Student[] mainUsers = new Student[100];
 		
 	public StudentService() {
-	for (int i = 0; i < 100; i++) {
-		mainUsers[i] = storedUsers.getStudentInfo(null, null, null, null);
-		
-	}
+//	for (int i = 0; i < 100; i++) {
+//		mainUsers[i] = storedUsers.getStudentInfo(id, name, course, grade);
+//		
+//	}
 	
 }	
 }	
