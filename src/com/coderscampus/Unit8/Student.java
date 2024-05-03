@@ -52,6 +52,15 @@ public class Student implements Comparable<Student>, Serializable{
 		// TODO Auto-generated method stub
 		return 0;
 	} 
+	@Override
+	public String toString() {
+		return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", course='" + course + '\'' +
+                ", grade=" + grade +
+                '}';
+    }
 	
 	
 }
