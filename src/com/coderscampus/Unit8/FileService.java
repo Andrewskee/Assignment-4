@@ -61,59 +61,69 @@ public class FileService {
 	
 	public void processStudentData() {
 		Student[] students = readStudentsFromFile();
-		  sortStudentsByGrade(students);
+		sortStudentsByCourseAndGrade(students);
 		 
 		  // Separate students by course and write to CSV files
 		  
 		
-			  try (FileOutputStream fileOutputStream1 = new FileOutputStream("course1.csv");
-				   FileOutputStream fileOutputStream2 = new FileOutputStream("course2.csv");
-				   FileOutputStream fileOutputStream3 = new FileOutputStream("course3.csv");
+			  try (FileOutputStream fileOutputStream1 = new FileOutputStream("course1.txt");
+				   FileOutputStream fileOutputStream2 = new FileOutputStream("course2.txt");
+				   FileOutputStream fileOutputStream3 = new FileOutputStream("course3.txt");
 				   BufferedWriter writer1 = new BufferedWriter(new OutputStreamWriter(fileOutputStream1));
 				   BufferedWriter writer2 = new BufferedWriter(new OutputStreamWriter(fileOutputStream2));
-				   BufferedWriter writer3 = new BufferedWriter(new OutputStreamWriter(fileOutputStream3))) {
-		        
-		     
-		        writer1.write("Student ID,Student Name,Course,Grade\n");
+				   BufferedWriter writer3 = new BufferedWriter(new OutputStreamWriter(fileOutputStream3))) 
+		{
+		        	     
+	            writer1.write("Student ID,Student Name,Course,Grade\n");
 		        writer2.write("Student ID,Student Name,Course,Grade\n");
 		        writer3.write("Student ID,Student Name,Course,Grade\n");
 		        
 		        for (Student student : students) {
 		            if (student != null) {
-		                String line = student.getId() + "," + student.getName() + "," + student.getCourse() + "," + student.getGrade() + "\n";
-		                if (student.getCourse().equals("COMPSCI 310")) {
-		                    writer1.write("\n" + line);
-		                } else if (student.getCourse().equals("APMTH 134")) {
-		                    writer2.write("\n" + line);
-		                } else if (student.getCourse().equals("STAT 236")) {
-		                    writer3.write("\n" +line);
-		                }
+		            String fileName = "C:\\Coders Campus Workspace\\Coders Campus 2024\\Student Master list CSV\\" + student.getCourse().replaceAll("[^a-zA-Z0-9]", "") + ".txt";
+		            writeStudentToTxt(fileName, student.getId(), student.getName(), student.getCourse(), student.getGrade());
+//	                String line = student.getId() + "," + student.getName() + "," + student.getCourse() + "," + student.getGrade() + "\n";
+//	                if (student.getCourse().equals("COMPSCI")) {
+//		                    writer1.write(line);
+//		                } else if (student.getCourse().equals("APMTH")) {
+//		                    writer2.write(line);
+//		                } else if (student.getCourse().equals("STAT")) {
+//		                    writer3.write(line);
+//		                }
 		            }
 		        }
 
-		      
-		  } catch (IOException e) {
-		        e.printStackTrace();
+	      
+	  } 
+	catch (IOException e) {
+	        e.printStackTrace();
 		  }
-	  }	  
+	}	  
 	
 
 	
 	
-	 private void sortStudentsByGrade(Student[] students) {
+	 private void sortStudentsByCourseAndGrade(Student[] students) {
 		 Arrays.sort(students, new Comparator<Student>() {
 
 			@Override
 			public int compare(Student s1, Student s2) {
 				
+				 // First, compare by course
+	            int courseCompare = s1.getCourse().compareTo(s2.getCourse());
+	            if (courseCompare != 0) {
+	                return courseCompare;
+				
+	            }
+	            // If courses are the same, compare by grade in descending order
 				return Integer.compare(s2.getGrade(), s1.getGrade());
 			}
 		 });
 	 }
 	
 	
-	private void writeStudentToCsv(int id, String name, String course, int grade) {
-		String fileName = "C:\\Coders Campus Workspace\\Coders Campus 2024\\Student Master list CSV\\" + course.replaceAll("[^a-zA-Z0-9]", "") + ".csv";
+	private void writeStudentToTxt(String fileName, int id, String name, String course, int grade) {
+//		String fileName = "C:\\Coders Campus Workspace\\Coders Campus 2024\\Student Master list CSV\\" + course.replaceAll("[^a-zA-Z0-9]", "") + ".txt";
 	
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
 			File file = new File(fileName);
@@ -129,38 +139,8 @@ public class FileService {
 	}
 	}
 	
-//	private String getCourseFileName(String course) {
-//		return course.replace(" ", "") + ".csv";
-	}
-//class StoredUsers {
-//		
-//		public User studentUser;
-//
-//		public Student getStudentInfo(Integer id,String name, String course,Integer grade ) {
-//			Student student = new Student(id, name, course, grade);
-//			
-//			student.setId(id);
-//			student.setName(name);
-//			student.setCourse(course);
-//			student.setGrade(grade);
-//			return student; 
-//		}
-//}
-//	
-//class StudentService {
-//	
-//	FileService fileService = new FileService();
-//	Student[] mainUsers = fileService.readStudentsFromFile();
-////	StoredUsers storedUsers = new StoredUsers();
-////	Student[] mainUsers = new Student[100];
-//		
-//	public StudentService() {
-////	for (int i = 0; i < 100; i++) {
-////		mainUsers[i] = storedUsers.getStudentInfo(id, name, course, grade);
-////		
-////	}
-//	
-//}	
+
+}	
 	
 
 	

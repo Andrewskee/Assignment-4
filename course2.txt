@@ -1,3 +1,1 @@
 Student ID,Student Name,Course,Grade
-99,Tia Welch,STAT 250,83
-
