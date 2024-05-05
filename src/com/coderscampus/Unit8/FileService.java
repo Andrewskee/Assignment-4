@@ -66,9 +66,9 @@ public class FileService {
 		  // Separate students by course and write to CSV files
 		  
 		
-			  try (FileOutputStream fileOutputStream1 = new FileOutputStream("course1.txt");
-				   FileOutputStream fileOutputStream2 = new FileOutputStream("course2.txt");
-				   FileOutputStream fileOutputStream3 = new FileOutputStream("course3.txt");
+			  try (FileOutputStream fileOutputStream1 = new FileOutputStream("course1.txt", true);
+				   FileOutputStream fileOutputStream2 = new FileOutputStream("course2.txt", true);
+				   FileOutputStream fileOutputStream3 = new FileOutputStream("course3.txt", true);
 				   BufferedWriter writer1 = new BufferedWriter(new OutputStreamWriter(fileOutputStream1));
 				   BufferedWriter writer2 = new BufferedWriter(new OutputStreamWriter(fileOutputStream2));
 				   BufferedWriter writer3 = new BufferedWriter(new OutputStreamWriter(fileOutputStream3))) 
@@ -81,16 +81,22 @@ public class FileService {
 		        for (Student student : students) {
 		            if (student != null) {
 		            String fileName;
-		            String line = student.getId() + "," + student.getName() + "," + student.getCourse() + "," + student.getGrade() + "\n";
 		            if (student.getCourse().equals("COMPSCI")) {
-		            	writer1.write(line);
+		                fileName = "course1.txt";
 		            } else if (student.getCourse().equals("APMTH")) {
-		            	writer2.write(line);
+		                fileName = "course2.txt";
 		            } else if (student.getCourse().equals("STAT")) {
-		            	writer3.write(line);
+		                fileName = "course3.txt";
+		            }else {
+		                // Handle unknown courses
+		                continue;
 		            }
-//		            = "C:\\Coders Campus Workspace\\Coders Campus 2024\\Student Master list CSV\\" + student.getCourse().replaceAll("[^a-zA-Z0-9]", "") + ".txt";
-             
+		            writeStudentToTxt(fileName, student.getId(), student.getName(), student.getCourse(), student.getGrade());
+
+		            
+		            
+//		           = "C:\\Coders Campus Workspace\\Coders Campus 2024\\Student Master list CSV\\" + student.getCourse().replaceAll("[^a-zA-Z0-9]", "") + ".txt";
+//             
 //		            if (student.getCourse().equals("COMPSCI")) {
 //	                    fileName = "course1.txt";
 //	                    if (new File(fileName).length() == 0) {
@@ -111,7 +117,6 @@ public class FileService {
 //	                    continue;
 //		            }
 		            
-//		            writeStudentToTxt(fileName, student.getId(), student.getName(), student.getCourse(), student.getGrade());
 		            
 		            }
 		        }
@@ -147,24 +152,27 @@ public class FileService {
 	
 	private void writeStudentToTxt(String fileName, int id, String name, String course, int grade) {
 //		String fileName = "C:\\Coders Campus Workspace\\Coders Campus 2024\\Student Master list CSV\\" + course.replaceAll("[^a-zA-Z0-9]", "") + ".txt";
-	
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-//			File file = new File(fileName);
-			if (new File(fileName).length()== 0) { // Check if file is empty
-		writer.write("Student ID,Student Name,Course,Grade");
-		writer.newLine();
+			File file = new File(fileName);
+			if (file.exists() && file.length() > 0) {
+				writer.newLine();
+			}else {
+				writer.write("Student ID,Student Name,Course,Grade");
+				writer.newLine();
+				}
+//			if (new File(fileName).length()== 0) { // Check if file is empty
 		
+			writer.write(id + "," + name + "," + course + "," + grade);
+			writer.newLine();
+		} catch (IOException e) {
+			e.printStackTrace();
 			}
-			 writer.write(id + "," + name + "," + course + "," + grade);
-	            writer.newLine();
 	           
-	} catch (IOException e) {
-		e.printStackTrace();
 	}
 	}
 	
 
-}	
+	
 	
 
 	
