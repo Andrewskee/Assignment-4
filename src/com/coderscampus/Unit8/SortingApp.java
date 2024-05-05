@@ -10,7 +10,7 @@ public class SortingApp {
 		
 		for (Student student : students) {
 			if (student != null) {
-//				System.out.println(student);
+				System.out.println(student);
 			}
 		}
 	}

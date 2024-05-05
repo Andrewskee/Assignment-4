@@ -49,8 +49,28 @@ public class Student implements Comparable<Student>, Serializable{
 
 	@Override
 	public int compareTo(Student o) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		// Compare by ID
+	    if (this.id < o.id) {
+	        return -1;
+	    } else if (this.id > o.id) {
+	        return 1;
+		}
+	    // If IDs are the same, compare by name
+		int nameCompare = this.name.compareTo(o.name);
+	    if (nameCompare != 0) {
+	        return nameCompare;
+	    }
+	    
+	    // If names are the same, compare by course
+	    int courseCompare = this.course.compareTo(o.course);
+	    if (courseCompare != 0) {
+	        return courseCompare;
+	    }
+	    
+	    // If courses are the same, compare by grade
+	    return Integer.compare(this.grade, o.grade);
+		
 	} 
 	@Override
 	
