@@ -10,14 +10,13 @@ import java.util.Arrays;
 
 public class FileService {
 
-//	private static final int MAX_STUDENTS = 100;
-
 	public Student[] readStudentsFromFile() {
 		Student[] students = new Student[100];
 		int studentCount = 0;
+		BufferedReader reader = null;
 
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("Masterlist.csv.txt"));
+			reader = new BufferedReader(new FileReader("Masterlist.csv.txt"));
 			String fileLine;
 			boolean isFirstLine = true;
 			while ((fileLine = reader.readLine()) != null && studentCount < 100) {
@@ -42,12 +41,18 @@ public class FileService {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-
 		// Resize the array to remove null elements
-		Student[] resizedStudents = new Student[studentCount];
-		System.arraycopy(students, 0, resizedStudents, 0, studentCount);
-		return resizedStudents;
+
+		return Arrays.copyOf(students, studentCount);
 	}
 
 	public void processStudentData() {
