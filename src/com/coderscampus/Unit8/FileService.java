@@ -7,21 +7,20 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class FileService {
 
-	private static final int MAX_STUDENTS = 100;
+//	private static final int MAX_STUDENTS = 100;
 
 	public Student[] readStudentsFromFile() {
-		Student[] students = new Student[MAX_STUDENTS];
+		Student[] students = new Student[100];
 		int studentCount = 0;
 
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader("Masterlist.csv.txt"));
 			String fileLine;
 			boolean isFirstLine = true;
-			while ((fileLine = reader.readLine()) != null && studentCount < MAX_STUDENTS) {
+			while ((fileLine = reader.readLine()) != null && studentCount < 100) {
 				if (isFirstLine) {
 					isFirstLine = false;
 					continue;
@@ -39,7 +38,6 @@ public class FileService {
 
 			}
 
-		
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -54,79 +52,64 @@ public class FileService {
 
 	public void processStudentData() {
 		Student[] students = readStudentsFromFile();
-		sortStudentsByCourseAndGrade(students);
 
 		// Separate students by course and write to CSV files
 
-		try (   
+		try (
 
 				BufferedWriter writer1 = new BufferedWriter(new FileWriter("course1.txt"));
 				BufferedWriter writer2 = new BufferedWriter(new FileWriter("course2.txt"));
-				BufferedWriter writer3 = new BufferedWriter(new FileWriter("course3.txt"))){
-			
-			
+				BufferedWriter writer3 = new BufferedWriter(new FileWriter("course3.txt"))
+
+		) {
+			// Write header to each file
+			writer1.write("Student ID,Student Name,Course,Grade\n");
+			writer2.write("Student ID,Student Name,Course,Grade\n");
+			writer3.write("Student ID,Student Name,Course,Grade\n");
+
+			// Sort students by grade in descending order
+			Arrays.sort(students, (s1, s2) -> Integer.compare(s2.getGrade(), s1.getGrade()));
+
 			for (Student student : students) {
 				if (student != null) {
 
-					BufferedWriter writer = null; 
-					
-				try {
-					if (student.getCourse().equals("COMPSCI")) {
-			           
-			            writer = writer1;  // Use writer1 for COMPSCI
-			        } else if (student.getCourse().equals("APMTH")) {
-			        
-			            writer = writer2;  // Use writer2 for APMTH
-			        } else if (student.getCourse().equals("STAT")) {
-	
-			            writer = writer3;  // Use writer3 for STAT
-					} else {
-						continue;
+					String course = student.getCourse();
+					int spaceIndex = course.indexOf(" ");
+					if (spaceIndex != -1) {
+						String coursePrefix = course.substring(0, spaceIndex);
+						String courseSuffix = course.substring(spaceIndex + 1);
+						BufferedWriter writer;
+						if (courseSuffix.matches("\\d+")) {
+
+							if (coursePrefix.equals("COMPSCI")) {
+								writer = writer1; // Use writer1 for COMPSCI
+							} else if (coursePrefix.equals("APMTH")) {
+								writer = writer2; // Use writer2 for APMTH
+							} else if (coursePrefix.equals("STAT")) {
+								writer = writer3; // Use writer3 for STAT
+							} else {
+								continue;
+							}
+							writeStudentToTxt(writer, student);
+						}
+
 					}
-					
-					writeStudentToTxt(writer, student);
-	                } finally {
-	                    if (writer != null) {
-	                        writer.close();
-	                    }
-	                }
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			
+
 		}
-	}	  
+	}
+
 	private void writeStudentToTxt(BufferedWriter writer, Student student) {
 		try {
 			writer.write(student.getId() + "," + student.getName() + "," + student.getCourse() + ","
 					+ student.getGrade() + "\n");
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void sortStudentsByCourseAndGrade(Student[] students) {
-		
-		
-		Arrays.sort(students, new Comparator<Student>() {
-
-			@Override
-			public int compare(Student s1, Student s2) {
-
-//				// First, compare by course
-				int courseCompare = s1.getCourse().compareTo(s2.getCourse());
-				if (courseCompare != 0) {
-					return courseCompare;
-
-				}
-//				 If courses are the same, compare by grade in descending order
-				return Integer.compare(s2.getGrade(), s1.getGrade());
-			}
-		});
-	}
-
-
 }
-//	}
